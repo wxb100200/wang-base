@@ -1,0 +1,62 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+    <!-- Realm实现 -->
+    <bean id="userRealm" class="com.base.wang.web.CustomRealm">
+        <!--<property name="credentialsMatcher" ref="credentialsMatcher"/>-->
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="userRealm"/>
+    </bean>
+    <!--自定义LogoutFilter,退出-->
+    <bean id="logoutFilter" class="com.base.wang.web.SystemLogoutFilter">
+        <property name="redirectUrl" value="/web/login"/>
+    </bean>
+    <!-- Shiro的Web过滤器 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- 注入shiro框架核心对象，安全管理器 -->
+        <property name="securityManager" ref="securityManager"/>
+        <!--private String loginUrl;登录页面
+               private String successUrl;登录成功后跳转页面
+               private String unauthorizedUrl;权限不足时的提示页面-->
+        <property name="loginUrl" value="login"/>
+        <property name="successUrl" value="/index.html"/>
+        <property name="unauthorizedUrl" value="/unauthorized.html"/>
+        <!-- 自定义filter -->
+        <property name="filters">
+            <map>
+                <entry key="logout" value-ref="logoutFilter" />
+            </map>
+        </property>
+        <!-- 指定URL拦截规则 -->
+        <property name="filterChainDefinitions">
+            <!--authc:代表shiro框架提供的一个过滤器，这个过滤器用于判断当前用户是否已经完成认证，
+                        如果当前用户已经认证，就放行，如果当前用户没有认证，跳转到登录页面
+                anon:代表shiro框架提供的一个过滤器，允许匿名访问-->
+            <value>
+                /=anon
+                /css/** = anon
+                /img/** = anon
+                /web/login = anon
+                /web/register = anon
+                /user/login = anon
+                /user/register = anon
+                /user/logout = logout
+                /web/index111 = roles["admin"]
+                /** = authc
+            </value>
+        </property>
+    </bean>
+
+    <!--Shiro生命周期处理器-->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <!--启用shiro注解-->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+</beans>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3">
+
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.mybatis.mapper.common.Mapper"/>
+            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="caseSensitive" value="false"/>
+        </plugin>
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/wang-base?characterEncoding=utf-8"
+                        userId="root"
+                        password="">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="com.base.wang.entity"
+                                targetProject="D:\\myProject\\wang-base\\wang-entity\\src\\main\\java"/>
+
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="D:\\myProject\\wang-base\\wang-service\\src\\main\\resources"/>
+
+        <javaClientGenerator targetPackage="com.base.wang.mapper"
+                             targetProject="D:\\myProject\\wang-base\\wang-service\\src\\main\\java" type="XMLMAPPER" />
+
+
+        <!--<table tableName="bas_test" domainObjectName="BasTest"></table>-->
+        <!--<table tableName="bas_user" domainObjectName="BasUser"></table>-->
+        <!--<table tableName="bas_config_param" domainObjectName="BasConfigParam"></table>-->
+        <!--<table tableName="bas_account" domainObjectName="BasAccount"></table>-->
+        <table tableName="bas_attachment" domainObjectName="BasAttachment"></table>
+
+     </context>
+ </generatorConfiguration>

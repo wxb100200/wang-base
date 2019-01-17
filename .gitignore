@@ -1,0 +1,25 @@
+*.class
+# Package Files #
+*.jar
+*.war
+*.ear
+*.iml
+*.ipr
+*.iws
+/bin
+.*
+!.gitignore
+/wang-common/classes
+/wang-entity/classes
+/wang-service/classes
+/wang-util/classes
+/wang-web/classes
+/wang-weixin/classes
+/company/classes
+/wang-common/target
+/wang-entity/target
+/wang-service/target
+/wang-util/target
+/wang-web/target
+/wang-weixin/target
+/company/target

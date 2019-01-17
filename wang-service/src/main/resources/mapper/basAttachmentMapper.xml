@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.base.wang.mapper.BasAttachmentMapper">
+  <resultMap id="BaseResultMap" type="com.base.wang.entity.BasAttachment">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="file_name" jdbcType="VARCHAR" property="fileName" />
+    <result column="file_path" jdbcType="VARCHAR" property="filePath" />
+    <result column="file_size" jdbcType="BIGINT" property="fileSize" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+      WARNING - @mbggenerated
+    -->
+    id, name, file_name as fileName, file_path as filePath, file_size fileSize, create_time as createTime
+  </sql>
+  <!--根据文件名称查找附件-->
+  <select id="findByFileName" parameterType="java.lang.String" resultType="com.base.wang.entity.BasAttachment">
+      SELECT <include refid="Base_Column_List"/> from bas_attachment WHERE file_name=#{fileName}
+  </select>
+</mapper>
