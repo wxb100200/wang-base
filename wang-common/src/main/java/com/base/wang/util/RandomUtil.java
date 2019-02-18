@@ -140,7 +140,8 @@ public class RandomUtil {
     }
 
     public static void main(String[] args) {
-        System.out.println(RandomUtil.lowerString(6));
+//        System.out.println(RandomUtil.lowerString(6));
+        System.out.println(RandomUtil.generateRandomStr(64));
 //        for(int i=0;i<100;i++){
 //            System.out.print(RandomUtil.generateRandomNum(4)+" ");
 //            System.out.print(RandomUtil.generateRandomChar(4)+" ");

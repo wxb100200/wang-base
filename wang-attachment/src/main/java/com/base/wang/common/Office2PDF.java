@@ -15,11 +15,6 @@ import org.springframework.util.StringUtils;
  * 使用该工具类电脑上必须安装openOffice软件
  * 这是一个工具类，主要是为了使Office2003-2007全部格式的文档(.doc|.docx|.xls|.xlsx|.ppt|.pptx)
  * 转化为pdf文件<br>
- * Office2010的没测试<br>
- *
- * @date 2017-03-03
- * @author jjc
- *
  */
 public class Office2PDF {
 
@@ -162,7 +157,6 @@ public class Office2PDF {
 
     public static void main(String[] args) {
         Office2PDF.openOfficeToPDF("D:/attachment/PSP-PMS-cxfservice-V1.40.8.docx");
-//        Office2PDF.openOfficeToPDF("/Users/JJC/Downloads/20170302汽修服务测试反馈.docx");
     }
 
 }

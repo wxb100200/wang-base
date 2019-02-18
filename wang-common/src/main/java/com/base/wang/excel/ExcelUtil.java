@@ -211,6 +211,23 @@ public class ExcelUtil {
             }
         }
     }
+    public static File downloadExcel(ExcelVersion version, List<ExcelSheetPO> excelSheets){
+        Workbook wb = createWorkBook(version, excelSheets);
+        try{
+            File tmpFile=File.createTempFile("temp",".xls");
+            tmpFile.deleteOnExit();//程序退出时删除临时文件
+            FileOutputStream fos=new FileOutputStream(tmpFile);
+            wb.write(fos);
+            wb.close();
+            fos.close();
+            return tmpFile;
+        }catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
 
     private static Workbook createWorkBook(ExcelVersion version, List<ExcelSheetPO> excelSheets) {
         Workbook wb = createWorkbook(version);

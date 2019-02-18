@@ -6,7 +6,6 @@ import com.base.wang.common.PageReturn;
 import com.base.wang.entity.BasAttachment;
 import com.base.wang.service.BasAttachmentService;
 import com.base.wang.util.DateUtil;
-import com.base.wang.util.DigestUtils;
 import com.base.wang.util.StringUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.stream.FileImageInputStream;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.PathParam;
