@@ -5,7 +5,10 @@ import com.base.wang.common.PageReturn;
 import com.base.wang.common.Paginator;
 import com.base.wang.entity.BasTest;
 import com.base.wang.mapper.BasTestMapper;
+import com.base.wang.service.JedisClient;
 import com.base.wang.service.TestService;
+import com.base.wang.util.JsonUtil;
+import com.base.wang.util.StringUtil;
 import com.github.pagehelper.PageHelper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +24,24 @@ public class TestServiceImpl extends BaseServiceImpl<BasTest> implements TestSer
     private Logger log = Logger.getLogger(this.getClass());
 
     @Autowired
-    BasTestMapper testMapper;
+    private BasTestMapper testMapper;
+    @Autowired
+    private JedisClient jedisClient;
 
     public BasTest findById(Integer id) {
-        return testMapper.findById(id);
+        String dataStr=jedisClient.hget("wangxiaobing",id+"");
+        if(StringUtil.isEmpty(dataStr)){
+            System.out.println("--->>>>1111");
+            BasTest test= testMapper.findById(id);
+            if(test==null)return null;
+            jedisClient.hset("wangxiaobing",id+"",JsonUtil.toJson(test));
+            return test;
+        }else {
+            System.out.println("--->>>>22222");
+            BasTest test= JsonUtil.json2Object(dataStr,BasTest.class);
+            return test;
+        }
+
     }
     public BasTest findById2(Integer id) {
         return testMapper.selectByPrimaryKey(id);

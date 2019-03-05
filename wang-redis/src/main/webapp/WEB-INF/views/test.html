@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8" />
+    <title>未授权</title>
+</head>
+<body>
+<form  id ="form2" action="/file/upload/single" enctype="multipart/form-data" method="post">
+    <input type = "file" name= 'file' />
+    <input type="text" name="name" value="dzf"/>
+    <input type="button" id = "button2" value="ajax上传" onclick="fileupload2()">
+    <input type ="submit" value="直接上传">
+</form>
+
+<hr/>
+
+<form action="/file/down/single" name="form3" id = "form3" method="post">
+    <input type = "submit" value="普通文件下载">
+</form>
+
+<hr/>
+<form  id ="form5" action="/file/upload/many" enctype="multipart/form-data" method="post">
+    <input type = "file" name= 'file' />
+    <input type = "file" name= 'file' />
+    <input type = "file" name= 'file' />
+    <input type="text" name="name" value="dzf"/>
+    <input type="button" id = "button2" value="多文件ajax上传" onclick="fileupload3()">
+    <input type ="submit" value="多文件直接上传">
+</form>
+
+<hr/>
+ <form action="/file/down/many" name="form4" id = "form4" method="post">
+    <input type = "submit" value="压缩文件下载">
+ </form>
+</body>
+</html>

@@ -15,6 +15,7 @@
 /wang-util/classes
 /wang-web/classes
 /wang-weixin/classes
+/wang-redis/classes
 /company/classes
 /wang-common/target
 /wang-entity/target
@@ -22,4 +23,5 @@
 /wang-util/target
 /wang-web/target
 /wang-weixin/target
+/wang-redis/target
 /company/target
