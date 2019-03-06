@@ -58,4 +58,9 @@ public class JedisClientCluster implements JedisClient {
         return jedisCluster.hdel(hkey, key);
     }
 
+    @Override
+    public Long rpush(String key, String... strings) {
+        return jedisCluster.rpush(key,strings);
+    }
+
 }

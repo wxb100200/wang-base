@@ -25,23 +25,10 @@ public class TestServiceImpl extends BaseServiceImpl<BasTest> implements TestSer
 
     @Autowired
     private BasTestMapper testMapper;
-    @Autowired
-    private JedisClient jedisClient;
 
     public BasTest findById(Integer id) {
-        String dataStr=jedisClient.hget("wangxiaobing",id+"");
-        if(StringUtil.isEmpty(dataStr)){
-            System.out.println("--->>>>1111");
-            BasTest test= testMapper.findById(id);
-            if(test==null)return null;
-            jedisClient.hset("wangxiaobing",id+"",JsonUtil.toJson(test));
-            return test;
-        }else {
-            System.out.println("--->>>>22222");
-            BasTest test= JsonUtil.json2Object(dataStr,BasTest.class);
-            return test;
-        }
-
+        BasTest test= testMapper.findById(id);
+        return test;
     }
     public BasTest findById2(Integer id) {
         return testMapper.selectByPrimaryKey(id);
