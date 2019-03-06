@@ -10,8 +10,6 @@ import com.base.wang.util.StringUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 
 import java.util.UUID;
 
@@ -31,8 +29,6 @@ public class RedisServiceImpl extends BaseServiceImpl<BasTest> implements RedisS
     private BasTestMapper testMapper;
     @Autowired
     private JedisClient jedisClient;
-    @Autowired
-    private JedisPool pool;
 
     @Override
     public BasTest findById(Integer id) {
@@ -53,24 +49,21 @@ public class RedisServiceImpl extends BaseServiceImpl<BasTest> implements RedisS
 
     @Override
     public Object initStores() {
-        Jedis jedis = pool.getResource();
         ////初始化
-        jedis.del(storesName, setSuccessName, setFailName);//删除仓库，删除抢购成功队列，删除抢购失败队列
-        jedis.set(storesCountKey, stores + "");
+        jedisClient.del(storesName, setSuccessName, setFailName);//删除仓库，删除抢购成功队列，删除抢购失败队列
+        jedisClient.set(storesCountKey, stores + "");
         for (int i = 1; i <= stores; i++) {
             String storeProp = i + ":" + UUID.randomUUID().toString();//模拟   序号:ID
-            jedis.rpush(storesName, storeProp);
+            jedisClient.rpush(storesName, storeProp);
         }
-        jedis.close();
         return PageReturn.success();
     }
 
     @Override
     public Object rushToBuy(){
-        Jedis jedis = pool.getResource();
         String userifo = UUID.randomUUID().toString();
         //redis list取值
-        String ls = jedis.lpop(storesName);
+        String ls = jedisClient.lpop(storesName);
         //取值成功，说明拿到了商品,即抢购成功
         if (ls != null) {
             String[] er = ls.split(":");
@@ -78,8 +71,7 @@ public class RedisServiceImpl extends BaseServiceImpl<BasTest> implements RedisS
             String ID = er[1];//商品ID
 
                     /* 抢购成功业务逻辑 */
-            jedis.sadd(setSuccessName, userifo);
-            jedis.close();
+            jedisClient.sadd(setSuccessName, userifo);
             System.out.println("用户：" + userifo + "抢购成功，当前抢购成功人数:"
                     + num + "------抢购成功商品ID:" + ID);
             try {
@@ -91,8 +83,7 @@ public class RedisServiceImpl extends BaseServiceImpl<BasTest> implements RedisS
                     + num + "------抢购成功商品ID:" + ID);
 
         } else {
-            jedis.sadd(setFailName, userifo);
-            jedis.close();
+            jedisClient.sadd(setFailName, userifo);
             System.out.println("用户：" + userifo + "抢购失败，库存以空");
             try {
                 Thread.sleep(400);//模拟业务执行时间
