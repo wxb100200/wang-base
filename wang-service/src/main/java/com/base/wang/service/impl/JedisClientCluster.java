@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import redis.clients.jedis.JedisCluster;
 
+import java.util.List;
+
 public class JedisClientCluster implements JedisClient {
 
     @Autowired
@@ -61,6 +63,51 @@ public class JedisClientCluster implements JedisClient {
     @Override
     public Long rpush(String key, String... strings) {
         return jedisCluster.rpush(key,strings);
+    }
+
+    @Override
+    public Long lpush(String key, String... strings) {
+        return jedisCluster.rpush(key,strings);
+    }
+
+    @Override
+    public Long llen(String key) {
+        return jedisCluster.llen(key);
+    }
+
+    @Override
+    public List<String> lrange(String key, long start, long end) {
+        return jedisCluster.lrange(key,start,end);
+    }
+
+    @Override
+    public String ltrim(String key, long start, long end) {
+        return jedisCluster.ltrim(key,start,end);
+    }
+
+    @Override
+    public String lindex(String key, long index) {
+        return jedisCluster.lindex(key,index);
+    }
+
+    @Override
+    public String lset(String key, long index, String value) {
+        return jedisCluster.lset(key,index,value);
+    }
+
+    @Override
+    public Long lrem(String key, long count, String value) {
+        return jedisCluster.lrem(key,count,value);
+    }
+
+    @Override
+    public String lpop(String key) {
+        return jedisCluster.lpop(key);
+    }
+
+    @Override
+    public String rpop(String key) {
+        return jedisCluster.rpop(key);
     }
 
 }
