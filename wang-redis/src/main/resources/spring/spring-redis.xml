@@ -7,6 +7,20 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:properties/dev.properties</value>
+                <value>file:/home/wang/properties/wang-test.properties</value>
+                <value>file:/home/wang/properties/wang-stage.properties</value>
+                <value>file:/home/wang/properties/wang-deploy.properties</value>
+
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+    </bean>
+
     <!-- 连接池配置 -->
     <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
         <!-- 最大连接数 -->
@@ -32,9 +46,12 @@
     </bean>
     <!-- jedis客户端单机版 -->
     <bean id="redisClient" class="redis.clients.jedis.JedisPool">
-        <constructor-arg name="host" value="127.0.0.1"></constructor-arg>
-        <constructor-arg name="port" value="6379"></constructor-arg>
-        <constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
+        <constructor-arg name="host" value="${redis.host}"/>
+        <constructor-arg name="port" value="${redis.port}"/>
+        <constructor-arg name="password" value="${redis.password}"/>
+        <constructor-arg name="database" value="${redis.database}"/>
+        <constructor-arg name="timeout" value="${redis.timeout}"/>
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"/>
     </bean>
     <bean id="jedisClient" class="com.base.wang.service.impl.JedisClientSingle"/>
 
